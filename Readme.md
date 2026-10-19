@@ -1,3 +1,5 @@
+<img width="1920" height="1032" alt="chinese ui" src="https://github.com/user-attachments/assets/7c65989f-0b81-4b4a-922b-98851a30aa3c" />
+
 ![SDR Angel banner](doc/img/sdrangel_banner.png)
 
 **SDRangel** is an open-source Qt5 / OpenGL 3.0+ SDR and signal analyzer frontend to various hardware.
