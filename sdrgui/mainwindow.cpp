@@ -2074,67 +2074,67 @@ void MainWindow::createMenuBar(QToolButton *button) const
     if (button == nullptr)
     {
         QMenuBar *menuBar = this->menuBar();
-        fileMenu = menuBar->addMenu("&File");
-        viewMenu = menuBar->addMenu("&View");
-        workspacesMenu = menuBar->addMenu("&Workspaces");
-        windowMenu = menuBar->addMenu("Wi&ndow");
-        preferencesMenu = menuBar->addMenu("&Preferences");
-        helpMenu = menuBar->addMenu("&Help");
+        fileMenu = menuBar->addMenu(tr("&File"));
+        viewMenu = menuBar->addMenu(tr("&View"));
+        workspacesMenu = menuBar->addMenu(tr("&Workspaces"));
+        windowMenu = menuBar->addMenu(tr("Wi&ndow"));
+        preferencesMenu = menuBar->addMenu(tr("&Preferences"));
+        helpMenu = menuBar->addMenu(tr("&Help"));
     }
     else
     {
         auto *menu = new QMenu();
-        fileMenu = new QMenu("&File");
+        fileMenu = new QMenu(tr("&File"));
         menu->addMenu(fileMenu);
-        viewMenu = new QMenu("&View");
+        viewMenu = new QMenu(tr("&View"));
         menu->addMenu(viewMenu);
-        workspacesMenu = new QMenu("&Workspaces");
+        workspacesMenu = new QMenu(tr("&Workspaces"));
         menu->addMenu(workspacesMenu);
-        windowMenu = new QMenu("Wi&ndow");
+        windowMenu = new QMenu(tr("Wi&ndow"));
         menu->addMenu(windowMenu);
-        preferencesMenu = new QMenu("&Preferences");
+        preferencesMenu = new QMenu(tr("&Preferences"));
         menu->addMenu(preferencesMenu);
-        helpMenu = new QMenu("&Help");
+        helpMenu = new QMenu(tr("&Help"));
         menu->addMenu(helpMenu);
         button->setMenu(menu);
     }
 
-    QAction *exitAction = fileMenu->addAction("E&xit");
+    QAction *exitAction = fileMenu->addAction(tr("E&xit"));
     exitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
-    exitAction->setToolTip("Exit");
+    exitAction->setToolTip(tr("Exit"));
     QObject::connect(exitAction, &QAction::triggered, this, &QMainWindow::close);
 
-    QAction *fullscreenAction = viewMenu->addAction("&Fullscreen");
+    QAction *fullscreenAction = viewMenu->addAction(tr("&Fullscreen"));
     fullscreenAction->setShortcut(QKeySequence(Qt::Key_F11));
-    fullscreenAction->setToolTip("Toggle fullscreen view");
+    fullscreenAction->setToolTip(tr("Toggle fullscreen view"));
     fullscreenAction->setCheckable(true);
     QObject::connect(fullscreenAction, &QAction::triggered, this, &MainWindow::on_action_View_Fullscreen_toggled);
 #ifdef ANDROID
-    QAction *keepscreenonAction = viewMenu->addAction("&Keep screen on");
-    keepscreenonAction->setToolTip("Prevent screen from switching off");
+    QAction *keepscreenonAction = viewMenu->addAction(tr("&Keep screen on"));
+    keepscreenonAction->setToolTip(tr("Prevent screen from switching off"));
     keepscreenonAction->setCheckable(true);
     QObject::connect(keepscreenonAction, &QAction::triggered, this, &MainWindow::on_action_View_KeepScreenOn_toggled);
 #endif
 #ifdef ENABLE_PROFILER
-    QAction *profileAction = viewMenu->addAction("&Profile data...");
-    profileAction->setToolTip("View profile data");
+    QAction *profileAction = viewMenu->addAction(tr("&Profile data..."));
+    profileAction->setToolTip(tr("View profile data"));
     QObject::connect(profileAction, &QAction::triggered, this, &MainWindow::on_action_Profile_triggered);
 #endif
 
-    QAction *newWorkspaceAction = workspacesMenu->addAction("&New");
-    newWorkspaceAction->setToolTip("Add a new workspace");
+    QAction *newWorkspaceAction = workspacesMenu->addAction(tr("&New"));
+    newWorkspaceAction->setToolTip(tr("Add a new workspace"));
     QObject::connect(newWorkspaceAction, &QAction::triggered, this, &MainWindow::addWorkspace);
-    QAction *viewAllWorkspacesAction = workspacesMenu->addAction("&View all");
-    viewAllWorkspacesAction->setToolTip("View all workspaces");
+    QAction *viewAllWorkspacesAction = workspacesMenu->addAction(tr("&View all"));
+    viewAllWorkspacesAction->setToolTip(tr("View all workspaces"));
     QObject::connect(viewAllWorkspacesAction, &QAction::triggered, this, &MainWindow::viewAllWorkspaces);
-    QAction *removeEmptyWorkspacesAction = workspacesMenu->addAction("&Remove empty");
-    removeEmptyWorkspacesAction->setToolTip("Remove empty workspaces");
+    QAction *removeEmptyWorkspacesAction = workspacesMenu->addAction(tr("&Remove empty"));
+    removeEmptyWorkspacesAction->setToolTip(tr("Remove empty workspaces"));
     QObject::connect(removeEmptyWorkspacesAction, &QAction::triggered, this, &MainWindow::removeEmptyWorkspaces);
 
     // Filled in each time it is opened, so it always matches what is hidden right now and
     // needs no signals from windows being added, hidden or closed
-    QMenu *showMenu = windowMenu->addMenu("&Show");
-    showMenu->setToolTip("Show a device, spectrum, channel or feature window that has been hidden");
+    QMenu *showMenu = windowMenu->addMenu(tr("&Show"));
+    showMenu->setToolTip(tr("Show a device, spectrum, channel or feature window that has been hidden"));
     QObject::connect(showMenu, &QMenu::aboutToShow, this, [this, showMenu]() { populateShowMenu(showMenu); });
 
     // These do what the workspace title bar buttons do, for the workspace the user last
@@ -2157,36 +2157,36 @@ void MainWindow::createMenuBar(QToolButton *button) const
 
     windowMenu->addSeparator();
 
-    QAction *cascadeAction = windowMenu->addAction("&Cascade");
-    cascadeAction->setToolTip("Cascade sub windows");
+    QAction *cascadeAction = windowMenu->addAction(tr("&Cascade"));
+    cascadeAction->setToolTip(tr("Cascade sub windows"));
     arrangeShortcut(cascadeAction, Qt::Key_C);
     QObject::connect(cascadeAction, &QAction::triggered, this, [this]() {
         if (Workspace *workspace = currentWorkspace()) { workspace->cascadeSubWindows(); }
     });
 
-    QAction *tileAction = windowMenu->addAction("&Tile");
-    tileAction->setToolTip("Tile sub windows");
+    QAction *tileAction = windowMenu->addAction(tr("&Tile"));
+    tileAction->setToolTip(tr("Tile sub windows"));
     arrangeShortcut(tileAction, Qt::Key_T);
     QObject::connect(tileAction, &QAction::triggered, this, [this]() {
         if (Workspace *workspace = currentWorkspace()) { workspace->tileSubWindows(); }
     });
 
-    QAction *stackVerticalAction = windowMenu->addAction("Stack &vertically");
-    stackVerticalAction->setToolTip("Stack sub windows vertically");
+    QAction *stackVerticalAction = windowMenu->addAction(tr("Stack &vertically"));
+    stackVerticalAction->setToolTip(tr("Stack sub windows vertically"));
     arrangeShortcut(stackVerticalAction, Qt::Key_V);
     QObject::connect(stackVerticalAction, &QAction::triggered, this, [this]() {
         if (Workspace *workspace = currentWorkspace()) { workspace->stackVerticalSubWindows(); }
     });
 
-    QAction *stackColumnsAction = windowMenu->addAction("Stack in c&olumns");
-    stackColumnsAction->setToolTip("Stack sub windows in columns");
+    QAction *stackColumnsAction = windowMenu->addAction(tr("Stack in c&olumns"));
+    stackColumnsAction->setToolTip(tr("Stack sub windows in columns"));
     arrangeShortcut(stackColumnsAction, Qt::Key_S);
     QObject::connect(stackColumnsAction, &QAction::triggered, this, [this]() {
         if (Workspace *workspace = currentWorkspace()) { workspace->stackSubWindows(); }
     });
 
-    QAction *tabsAction = windowMenu->addAction("Ta&bs");
-    tabsAction->setToolTip("Display sub windows in tabs");
+    QAction *tabsAction = windowMenu->addAction(tr("Ta&bs"));
+    tabsAction->setToolTip(tr("Display sub windows in tabs"));
     arrangeShortcut(tabsAction, Qt::Key_B);
     tabsAction->setCheckable(true);
     QObject::connect(tabsAction, &QAction::triggered, this, [this, tabsAction]() {
@@ -2213,58 +2213,58 @@ void MainWindow::createMenuBar(QToolButton *button) const
         tabsAction->setChecked(workspace && workspace->getTabSubWindowsOption());
     });
 
-    QAction *configurationsAction = preferencesMenu->addAction("&Configurations...");
-    configurationsAction->setToolTip("Manage configurations");
+    QAction *configurationsAction = preferencesMenu->addAction(tr("&Configurations..."));
+    configurationsAction->setToolTip(tr("Manage configurations"));
     QObject::connect(configurationsAction, &QAction::triggered, this, &MainWindow::on_action_Configurations_triggered);
-    QAction *audioAction = preferencesMenu->addAction("&Audio...");
-    audioAction->setToolTip("Audio preferences");
+    QAction *audioAction = preferencesMenu->addAction(tr("&Audio..."));
+    audioAction->setToolTip(tr("Audio preferences"));
     QObject::connect(audioAction, &QAction::triggered, this, &MainWindow::on_action_Audio_triggered);
-    QAction *graphicsAction = preferencesMenu->addAction("&Graphics...");
-    graphicsAction->setToolTip("Graphics preferences");
+    QAction *graphicsAction = preferencesMenu->addAction(tr("&Graphics..."));
+    graphicsAction->setToolTip(tr("Graphics preferences"));
     QObject::connect(graphicsAction, &QAction::triggered, this, &MainWindow::on_action_Graphics_triggered);
-    QAction *loggingAction = preferencesMenu->addAction("&Logging...");
-    loggingAction->setToolTip("Logging preferences");
+    QAction *loggingAction = preferencesMenu->addAction(tr("&Logging..."));
+    loggingAction->setToolTip(tr("Logging preferences"));
     QObject::connect(loggingAction, &QAction::triggered, this, &MainWindow::on_action_Logging_triggered);
-    QAction *myPositionAction = preferencesMenu->addAction("My &Position...");
-    myPositionAction->setToolTip("Set station position");
+    QAction *myPositionAction = preferencesMenu->addAction(tr("My &Position..."));
+    myPositionAction->setToolTip(tr("Set station position"));
     QObject::connect(myPositionAction, &QAction::triggered, this, &MainWindow::on_action_My_Position_triggered);
-    QAction *fftAction = preferencesMenu->addAction("&FFT...");
-    fftAction->setToolTip("Set FFT preferences");
+    QAction *fftAction = preferencesMenu->addAction(tr("&FFT..."));
+    fftAction->setToolTip(tr("Set FFT preferences"));
     QObject::connect(fftAction, &QAction::triggered, this, &MainWindow::on_action_FFT_triggered);
 #if QT_CONFIG(process)
-    QAction *fftWisdomAction = preferencesMenu->addAction("&FFTW Wisdom...");
-    fftWisdomAction->setToolTip("Set FFTW cache");
+    QAction *fftWisdomAction = preferencesMenu->addAction(tr("&FFTW Wisdom..."));
+    fftWisdomAction->setToolTip(tr("Set FFTW cache"));
     QObject::connect(fftWisdomAction, &QAction::triggered, this, &MainWindow::on_action_FFTWisdom_triggered);
 #endif
-    QMenu *devicesMenu = preferencesMenu->addMenu("&Devices");
-    QAction *userArgumentsAction = devicesMenu->addAction("&User arguments...");
-    userArgumentsAction->setToolTip("Device custom user arguments");
+    QMenu *devicesMenu = preferencesMenu->addMenu(tr("&Devices"));
+    QAction *userArgumentsAction = devicesMenu->addAction(tr("&User arguments..."));
+    userArgumentsAction->setToolTip(tr("Device custom user arguments"));
     QObject::connect(userArgumentsAction, &QAction::triggered, this, &MainWindow::on_action_DeviceUserArguments_triggered);
 #if QT_CONFIG(process)
-    QAction *commandsAction = preferencesMenu->addAction("C&ommands...");
-    commandsAction->setToolTip("External commands dialog");
+    QAction *commandsAction = preferencesMenu->addAction(tr("C&ommands..."));
+    commandsAction->setToolTip(tr("External commands dialog"));
     QObject::connect(commandsAction, &QAction::triggered, this, &MainWindow::on_action_commands_triggered);
 #endif
-    QAction *saveAllAction = preferencesMenu->addAction("&Save all");
-    saveAllAction->setToolTip("Save all current settings");
+    QAction *saveAllAction = preferencesMenu->addAction(tr("&Save all"));
+    saveAllAction->setToolTip(tr("Save all current settings"));
     QObject::connect(saveAllAction, &QAction::triggered, this, &MainWindow::on_action_saveAll_triggered);
 
 #if defined(ANDROID) || defined(__EMSCRIPTEN__)
-    QAction *welcomeAction = helpMenu->addAction("&Welcome...");
-    welcomeAction->setToolTip("Show welcome dialog");
+    QAction *welcomeAction = helpMenu->addAction(tr("&Welcome..."));
+    welcomeAction->setToolTip(tr("Show welcome dialog"));
     QObject::connect(welcomeAction, &QAction::triggered, this, &MainWindow::on_action_Welcome_triggered);
 #endif
-    QAction *quickStartAction = helpMenu->addAction("&Quick start...");
-    quickStartAction->setToolTip("Instructions for quick start");
+    QAction *quickStartAction = helpMenu->addAction(tr("&Quick start..."));
+    quickStartAction->setToolTip(tr("Instructions for quick start"));
     QObject::connect(quickStartAction, &QAction::triggered, this, &MainWindow::on_action_Quick_Start_triggered);
-    QAction *mainWindowAction = helpMenu->addAction("&Main Window...");
-    mainWindowAction->setToolTip("Help on main window details");
+    QAction *mainWindowAction = helpMenu->addAction(tr("&Main Window..."));
+    mainWindowAction->setToolTip(tr("Help on main window details"));
     QObject::connect(mainWindowAction, &QAction::triggered, this, &MainWindow::on_action_Main_Window_triggered);
-    QAction *loadedPluginsAction = helpMenu->addAction("Loaded &Plugins...");
-    loadedPluginsAction->setToolTip("List available plugins");
+    QAction *loadedPluginsAction = helpMenu->addAction(tr("Loaded &Plugins..."));
+    loadedPluginsAction->setToolTip(tr("List available plugins"));
     QObject::connect(loadedPluginsAction, &QAction::triggered, this, &MainWindow::on_action_Loaded_Plugins_triggered);
-    QAction *aboutAction = helpMenu->addAction("&About SDRangel...");
-    aboutAction->setToolTip("SDRangel application details");
+    QAction *aboutAction = helpMenu->addAction(tr("&About SDRangel..."));
+    aboutAction->setToolTip(tr("SDRangel application details"));
     QObject::connect(aboutAction, &QAction::triggered, this, &MainWindow::on_action_About_triggered);
 }
 
@@ -3134,14 +3134,14 @@ void MainWindow::populateShowMenu(QMenu *menu) const
 
     if (hidden == 0)
     {
-        QAction *none = menu->addAction("(nothing is hidden)");
+        QAction *none = menu->addAction(tr("(nothing is hidden)"));
         none->setEnabled(false);
     }
     else
     {
         menu->addSeparator();
-        QAction *all = menu->addAction("Show &all");
-        all->setToolTip("Show every hidden window");
+        QAction *all = menu->addAction(tr("Show &all"));
+        all->setToolTip(tr("Show every hidden window"));
         QObject::connect(all, &QAction::triggered, this, &MainWindow::showAllHiddenWindows);
     }
 }
