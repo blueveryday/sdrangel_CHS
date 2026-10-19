@@ -228,11 +228,11 @@ void GLSpectrumGUI::displaySettings()
     ui->gridIntensity->setSliderPosition(m_settings.m_displayGridIntensity);
     ui->truncateScale->setChecked(m_settings.m_truncateFreqScale);
 
-    ui->decay->setToolTip(QString("Decay: %1").arg(m_settings.m_decay));
-    ui->decayDivisor->setToolTip(QString("Decay divisor: %1").arg(m_settings.m_decayDivisor));
-    ui->stroke->setToolTip(QString("Stroke: %1").arg(m_settings.m_histogramStroke));
-    ui->gridIntensity->setToolTip(QString("Grid intensity: %1").arg(m_settings.m_displayGridIntensity));
-    ui->traceIntensity->setToolTip(QString("Trace intensity: %1").arg(m_settings.m_displayTraceIntensity));
+    ui->decay->setToolTip(QObject::tr("Decay: %1").arg(m_settings.m_decay));
+    ui->decayDivisor->setToolTip(QObject::tr("Decay divisor: %1").arg(m_settings.m_decayDivisor));
+    ui->stroke->setToolTip(QObject::tr("Stroke: %1").arg(m_settings.m_histogramStroke));
+    ui->gridIntensity->setToolTip(QObject::tr("Grid intensity: %1").arg(m_settings.m_displayGridIntensity));
+    ui->traceIntensity->setToolTip(QObject::tr("Trace intensity: %1").arg(m_settings.m_displayTraceIntensity));
 
     ui->fftWindow->blockSignals(true);
     ui->averaging->blockSignals(true);
@@ -338,7 +338,7 @@ void GLSpectrumGUI::displayControls()
 void GLSpectrumGUI::displayGotoMarkers()
 {
     ui->gotoMarker->clear();
-    ui->gotoMarker->addItem("Go to...");
+    ui->gotoMarker->addItem(QObject::tr("Go to..."));
 
     for (auto marker : m_settings.m_annoationMarkers)
     {
@@ -680,14 +680,14 @@ void GLSpectrumGUI::on_load_clicked(bool checked)
             m_glSpectrum->readCSV(in, false, error);
 
             if (!error.isEmpty()) {
-                QMessageBox::critical(this, "Spectrum", QString("Failed to read file %1: %2").arg(filename).arg(error));
+                QMessageBox::critical(this, QObject::tr("Spectrum"), QObject::tr("Failed to read file %1: %2").arg(filename).arg(error));
             }
 
             file.close();
         }
         else
         {
-            QMessageBox::critical(this, "Spectrum", QString("Failed to open file %1").arg(filename));
+            QMessageBox::critical(this, QObject::tr("Spectrum"), QObject::tr("Failed to open file %1").arg(filename));
         }
     }
 }
@@ -712,7 +712,7 @@ void GLSpectrumGUI::on_save_clicked(bool checked)
         }
         else
         {
-            QMessageBox::critical(this, "Spectrum", QString("Failed to open file %1").arg(filename));
+            QMessageBox::critical(this, QObject::tr("Spectrum"), QObject::tr("Failed to open file %1").arg(filename));
         }
     }
 }
@@ -726,7 +726,7 @@ void GLSpectrumGUI::on_saveImage_clicked(bool checked)
     if (!filename.isEmpty())
     {
         if (!m_glSpectrum->writeImage(filename)) {
-            QMessageBox::critical(this, "Spectrum", QString("Failed to save image to file %1").arg(filename));
+            QMessageBox::critical(this, QObject::tr("Spectrum"), QObject::tr("Failed to save image to file %1").arg(filename));
         }
     }
 }
@@ -753,21 +753,21 @@ void GLSpectrumGUI::on_fps_currentIndexChanged(int index)
 void GLSpectrumGUI::on_decay_valueChanged(int index)
 {
     m_settings.m_decay = index;
-    ui->decay->setToolTip(QString("Decay: %1").arg(m_settings.m_decay));
+    ui->decay->setToolTip(QObject::tr("Decay: %1").arg(m_settings.m_decay));
     applySettings();
 }
 
 void GLSpectrumGUI::on_decayDivisor_valueChanged(int index)
 {
     m_settings.m_decayDivisor = index;
-    ui->decayDivisor->setToolTip(QString("Decay divisor: %1").arg(m_settings.m_decayDivisor));
+    ui->decayDivisor->setToolTip(QObject::tr("Decay divisor: %1").arg(m_settings.m_decayDivisor));
     applySettings();
 }
 
 void GLSpectrumGUI::on_stroke_valueChanged(int index)
 {
     m_settings.m_histogramStroke = index;
-    ui->stroke->setToolTip(QString("Stroke: %1").arg(m_settings.m_histogramStroke));
+    ui->stroke->setToolTip(QObject::tr("Stroke: %1").arg(m_settings.m_histogramStroke));
     applySettings();
 }
 
@@ -882,7 +882,7 @@ void GLSpectrumGUI::on_grid_toggled(bool checked)
 void GLSpectrumGUI::on_gridIntensity_valueChanged(int index)
 {
     m_settings.m_displayGridIntensity = index;
-    ui->gridIntensity->setToolTip(QString("Grid intensity: %1").arg(m_settings.m_displayGridIntensity));
+    ui->gridIntensity->setToolTip(QObject::tr("Grid intensity: %1").arg(m_settings.m_displayGridIntensity));
     applySettings();
 }
 
@@ -896,7 +896,7 @@ void GLSpectrumGUI::on_truncateScale_toggled(bool checked)
 void GLSpectrumGUI::on_traceIntensity_valueChanged(int index)
 {
     m_settings.m_displayTraceIntensity = index;
-    ui->traceIntensity->setToolTip(QString("Trace intensity: %1").arg(m_settings.m_displayTraceIntensity));
+    ui->traceIntensity->setToolTip(QObject::tr("Trace intensity: %1").arg(m_settings.m_displayTraceIntensity));
     applySettings();
 }
 
@@ -1023,11 +1023,11 @@ void GLSpectrumGUI::setAveragingToolitp()
             1 :
             SpectrumSettings::getAveragingValue(averagingIndex, m_settings.m_averagingMode))) / (float) m_glSpectrum->getSampleRate();
         setNumberStr(averagingTime*overlapFactor, 2, s);
-        ui->averaging->setToolTip(QString("Number of averaging samples (avg time: %1s)").arg(s));
+        ui->averaging->setToolTip(QObject::tr("Number of averaging samples (avg time: %1s)").arg(s));
     }
     else
     {
-        ui->averaging->setToolTip(QString("Number of averaging samples"));
+        ui->averaging->setToolTip(QObject::tr("Number of averaging samples"));
     }
 }
 
@@ -1037,11 +1037,11 @@ void GLSpectrumGUI::setFFTSizeToolitp()
     {
         QString s;
         setNumberStr((float) m_glSpectrum->getSampleRate() / m_settings.m_fftSize, 2, s);
-        ui->fftSize->setToolTip(QString("FFT size (resolution: %1Hz)").arg(s));
+        ui->fftSize->setToolTip(QObject::tr("FFT size (resolution: %1Hz)").arg(s));
     }
     else
     {
-        ui->fftSize->setToolTip(QString("FFT size"));
+        ui->fftSize->setToolTip(QObject::tr("FFT size"));
     }
 }
 
@@ -1538,17 +1538,17 @@ void GLSpectrumGUI::loadMem(int memoryIdx)
                     updateMem(memoryIdx);
 
                     if (spectrum.size() != m_settings.m_fftSize) {
-                        QMessageBox::warning(this, "Spectrum", QString("Loaded data size (%1) does not match FFT size (%2)").arg(spectrum.size()).arg(m_settings.m_fftSize));
+                        QMessageBox::warning(this, QObject::tr("Spectrum"), QObject::tr("Loaded data size (%1) does not match FFT size (%2)").arg(spectrum.size()).arg(m_settings.m_fftSize));
                     }
                 }
                 else
                 {
-                    QMessageBox::critical(this, "Spectrum", QString("Failed to read file %1\n%2").arg(fileNames[0]).arg(error));
+                    QMessageBox::critical(this, QObject::tr("Spectrum"), QObject::tr("Failed to read file %1\n%2").arg(fileNames[0]).arg(error));
                 }
             }
             else
             {
-                QMessageBox::critical(this, "Spectrum", QString("Failed to open file %1").arg(fileNames[0]));
+                QMessageBox::critical(this, QObject::tr("Spectrum"), QObject::tr("Failed to open file %1").arg(fileNames[0]));
             }
         }
     }
@@ -1584,7 +1584,7 @@ void GLSpectrumGUI::saveMem(int memoryIdx)
             }
             else
             {
-                QMessageBox::critical(this, "Spectrum", QString("Failed to open file %1").arg(fileNames[0]));
+                QMessageBox::critical(this, QObject::tr("Spectrum"), QObject::tr("Failed to open file %1").arg(fileNames[0]));
             }
         }
     }

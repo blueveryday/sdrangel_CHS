@@ -50,8 +50,8 @@ void FFTNRDialog::setScheme(FFTNoiseReduction::Scheme scheme)
         ui->genParam->setMinimum(200);
         ui->genParam->setMaximum(990);
         ui->genParam->setValue(m_aboveAvgFactor*10);
-        ui->genParam->setToolTip("Above average multiplier");
-        ui->genParamLabel->setText("Above avg mult");
+        ui->genParam->setToolTip(QObject::tr("Above average multiplier"));
+        ui->genParamLabel->setText(QObject::tr("Above avg mult"));
         ui->genParamValue->setText(tr("%1").arg(m_aboveAvgFactor, 0, 'f', 1));
         break;
     case FFTNoiseReduction::Scheme::SchemeAvgStdDev:
@@ -59,8 +59,8 @@ void FFTNRDialog::setScheme(FFTNoiseReduction::Scheme scheme)
         ui->genParam->setMinimum(20);
         ui->genParam->setMaximum(160);
         ui->genParam->setValue(m_sigmaFactor*10);
-        ui->genParam->setToolTip("Standard deviation multiplier");
-        ui->genParamLabel->setText("Sigma multiplier");
+        ui->genParam->setToolTip(QObject::tr("Standard deviation multiplier"));
+        ui->genParamLabel->setText(QObject::tr("Sigma multiplier"));
         ui->genParamValue->setText(tr("%1").arg(m_sigmaFactor, 0, 'f', 1));
         break;
     case FFTNoiseReduction::Scheme::SchemePeaks:
@@ -68,8 +68,8 @@ void FFTNRDialog::setScheme(FFTNoiseReduction::Scheme scheme)
         ui->genParam->setMinimum(1);
         ui->genParam->setMaximum(40);
         ui->genParam->setValue(m_nbPeaks);
-        ui->genParam->setToolTip("Number of max peaks selected");
-        ui->genParamLabel->setText("Nb of peaks");
+        ui->genParam->setToolTip(QObject::tr("Number of max peaks selected"));
+        ui->genParamLabel->setText(QObject::tr("Nb of peaks"));
         ui->genParamValue->setText(tr("%1").arg(m_nbPeaks));
         break;
     default:

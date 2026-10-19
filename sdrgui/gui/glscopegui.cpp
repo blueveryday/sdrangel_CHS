@@ -455,7 +455,7 @@ void GLScopeGUI::on_polarGrid_toggled(bool checked)
 
 void GLScopeGUI::on_traceIntensity_valueChanged(int value)
 {
-    ui->traceIntensity->setToolTip(QString("Trace intensity: %1").arg(value));
+    ui->traceIntensity->setToolTip(QObject::tr("Trace intensity: %1").arg(value));
     m_glScope->setDisplayTraceIntensity(value);
     m_settings.m_traceIntensity = value;
     m_scopeVis->configure(
@@ -467,7 +467,7 @@ void GLScopeGUI::on_traceIntensity_valueChanged(int value)
 
 void GLScopeGUI::on_gridIntensity_valueChanged(int value)
 {
-    ui->gridIntensity->setToolTip(QString("Grid intensity: %1").arg(value));
+    ui->gridIntensity->setToolTip(QObject::tr("Grid intensity: %1").arg(value));
     m_glScope->setDisplayGridIntensity(value);
     m_settings.m_gridIntensity = value;
     m_scopeVis->configure(
@@ -1198,8 +1198,8 @@ void GLScopeGUI::setTrigLevelDisplay()
     double t = (ui->trigLevelCoarse->value() / 100.0f) + (ui->trigLevelFine->value() / 50000.0f);
     Projector::ProjectionType projectionType = (Projector::ProjectionType) ui->trigMode->currentIndex();
 
-    ui->trigLevelCoarse->setToolTip(QString("Trigger level coarse: %1 %").arg(ui->trigLevelCoarse->value() / 100.0f));
-    ui->trigLevelFine->setToolTip(QString("Trigger level fine: %1 ppm").arg(ui->trigLevelFine->value() * 20));
+    ui->trigLevelCoarse->setToolTip(QObject::tr("Trigger level coarse: %1 %").arg(ui->trigLevelCoarse->value() / 100.0f));
+    ui->trigLevelFine->setToolTip(QObject::tr("Trigger level fine: %1 ppm").arg(ui->trigLevelFine->value() * 20));
 
     if (projectionType == Projector::ProjectionMagDB) {
         ui->trigLevelText->setText(tr("%1\ndB").arg(100.0 * (t - 1.0), 0, 'f', 1));
@@ -1507,10 +1507,10 @@ void GLScopeGUI::displaySettings()
     setDisplayMode(m_settings.m_displayMode);
     ui->polarPoints->setChecked(m_settings.m_displayXYPoints);
     ui->polarGrid->setChecked(m_settings.m_displayXYPolarGrid);
-    ui->traceIntensity->setToolTip(QString("Trace intensity: %1").arg(m_settings.m_traceIntensity));
+    ui->traceIntensity->setToolTip(QObject::tr("Trace intensity: %1").arg(m_settings.m_traceIntensity));
     ui->traceIntensity->setValue(m_settings.m_traceIntensity);
     m_glScope->setDisplayTraceIntensity(m_settings.m_traceIntensity);
-    ui->gridIntensity->setToolTip(QString("Grid intensity: %1").arg(m_settings.m_gridIntensity));
+    ui->gridIntensity->setToolTip(QObject::tr("Grid intensity: %1").arg(m_settings.m_gridIntensity));
     ui->gridIntensity->setValue(m_settings.m_gridIntensity);
     m_glScope->setDisplayGridIntensity(m_settings.m_gridIntensity);
     setTimeScaleDisplay();

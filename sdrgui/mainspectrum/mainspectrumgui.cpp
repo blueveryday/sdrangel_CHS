@@ -59,14 +59,14 @@ MainSpectrumGUI::MainSpectrumGUI(GLSpectrum *spectrum, GLSpectrumGUI *spectrumGU
     m_indexLabel->setFixedSize(32, 16);
     m_indexLabel->setStyleSheet("QLabel { background-color: rgb(128, 128, 128); qproperty-alignment: AlignCenter; }");
     m_indexLabel->setText(tr("X:%1").arg(m_deviceSetIndex));
-    m_indexLabel->setToolTip("Device type and set index");
+    m_indexLabel->setToolTip(QObject::tr("Device type and set index"));
 
     m_spacerLabel = new QLabel();
     m_spacerLabel->setFixedWidth(5);
 
     m_titleLabel = new QLabel();
-    m_titleLabel->setText("Device");
-    m_titleLabel->setToolTip("Device identification");
+    m_titleLabel->setText(QObject::tr("Device"));
+    m_titleLabel->setToolTip(QObject::tr("Device identification"));
     m_titleLabel->setFixedHeight(20);
     m_titleLabel->setMinimumWidth(20);
     m_titleLabel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
@@ -75,31 +75,31 @@ MainSpectrumGUI::MainSpectrumGUI(GLSpectrum *spectrum, GLSpectrumGUI *spectrumGU
     m_helpButton->setFixedSize(20, 20);
     QIcon helpIcon(":/help.png");
     m_helpButton->setIcon(helpIcon);
-    m_helpButton->setToolTip("Show spectrum window documentation in browser");
+    m_helpButton->setToolTip(QObject::tr("Show spectrum window documentation in browser"));
 
     m_moveButton = new QPushButton();
     m_moveButton->setFixedSize(20, 20);
     QIcon moveIcon(":/exit.png");
     m_moveButton->setIcon(moveIcon);
-    m_moveButton->setToolTip("Move to another workspace");
+    m_moveButton->setToolTip(QObject::tr("Move to another workspace"));
 
     m_shrinkButton = new QPushButton();
     m_shrinkButton->setFixedSize(20, 20);
     QIcon shrinkIcon(":/shrink.png");
     m_shrinkButton->setIcon(shrinkIcon);
-    m_shrinkButton->setToolTip("Adjust window to minimum size");
+    m_shrinkButton->setToolTip(QObject::tr("Adjust window to minimum size"));
 
     m_maximizeButton = new QPushButton();
     m_maximizeButton->setFixedSize(20, 20);
     QIcon maximizeIcon(":/maximize.png");
     m_maximizeButton->setIcon(maximizeIcon);
-    m_maximizeButton->setToolTip("Adjust window to maximum size in workspace");
+    m_maximizeButton->setToolTip(QObject::tr("Adjust window to maximum size in workspace"));
 
     m_hideButton = new QPushButton();
     m_hideButton->setFixedSize(20, 20);
     QIcon hideIcon(":/hide.png");
     m_hideButton->setIcon(hideIcon);
-    m_hideButton->setToolTip("Hide spectrum");
+    m_hideButton->setToolTip(QObject::tr("Hide spectrum"));
 
     m_statusLabel = new QLabel();
     // m_statusLabel->setText("OK"); // for future use
@@ -276,13 +276,13 @@ void MainSpectrumGUI::maximizeWindow()
         }
         showNormal(); // If we don't go back to normal first, window doesn't get bigger
         showFullScreen();
-        m_shrinkButton->setToolTip("Adjust window to maximum size in workspace");
+        m_shrinkButton->setToolTip(QObject::tr("Adjust window to maximum size in workspace"));
     }
     else
     {
         showMaximized();
-        m_shrinkButton->setToolTip("Restore window to normal");
-        m_maximizeButton->setToolTip("Make window full screen");
+        m_shrinkButton->setToolTip(QObject::tr("Restore window to normal"));
+        m_maximizeButton->setToolTip(QObject::tr("Make window full screen"));
     }
 }
 
@@ -295,14 +295,14 @@ void MainSpectrumGUI::shrinkWindow()
         m_mdi->addSubWindow(this);
         show();
         showMaximized();
-        m_shrinkButton->setToolTip("Restore window to normal");
+        m_shrinkButton->setToolTip(QObject::tr("Restore window to normal"));
         m_mdi = nullptr;
     }
     else if (isMaximized())
     {
         showNormal();
-        m_shrinkButton->setToolTip("Adjust window to minimum size");
-        m_maximizeButton->setToolTip("Adjust window to maximum size in workspace");
+        m_shrinkButton->setToolTip(QObject::tr("Adjust window to minimum size"));
+        m_maximizeButton->setToolTip(QObject::tr("Adjust window to maximum size in workspace"));
     }
     else
     {

@@ -81,9 +81,9 @@ void BasicDeviceSettingsDialog::on_replayLength_valueChanged(double value)
     m_replayLength = (float)value;
     float size = m_replayLength * m_replayBytesPerSecond;
     if (size < 1e6) {
-        ui->replayLengthSize->setText("(<1MB)");
+        ui->replayLengthSize->setText(QObject::tr("(<1MB)"));
     } else {
-        ui->replayLengthSize->setText(QString("(%1MB)").arg(std::ceil(size/1e6)));
+        ui->replayLengthSize->setText(QObject::tr("(%1MB)").arg(std::ceil(size/1e6)));
     }
 }
 

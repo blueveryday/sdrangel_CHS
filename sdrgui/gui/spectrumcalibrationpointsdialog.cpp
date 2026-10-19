@@ -59,7 +59,7 @@ SpectrumCalibrationPointsDialog::SpectrumCalibrationPointsDialog(
     ui->calibInterpMode->setCurrentIndex((int) m_calibrationInterpMode);
     ui->calibInterpMode->blockSignals(false);
     ui->calibrationGlobalCorr->setValue(m_globalCorrection * 100.0);
-    ui->corrOrSet->setText("Cor");
+    ui->corrOrSet->setText(QObject::tr("Cor"));
     displayCalibrationPoint();
     DialPopup::addPopupsToChildDials(this);
 }
@@ -235,9 +235,9 @@ void SpectrumCalibrationPointsDialog::on_calibrationGlobalCorr_changed(qint64 va
 void SpectrumCalibrationPointsDialog::on_corrOrSet_toggled(bool checked)
 {
     if (checked) {
-        ui->corrOrSet->setText("Set");
+        ui->corrOrSet->setText(QObject::tr("Set"));
     } else {
-        ui->corrOrSet->setText("Cor");
+        ui->corrOrSet->setText(QObject::tr("Cor"));
     }
 
     m_setElseCorrectGlobal = checked;

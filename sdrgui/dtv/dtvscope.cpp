@@ -65,7 +65,7 @@ void DTVScope::setView(View view)
             "that couldn't be corrected (red bars)"
     };
     m_view = view;
-    setToolTip(QString("Constellation of the equalised data cells, and %1. Right-click to choose what's plotted at the right")
+    setToolTip(QObject::tr("Constellation of the equalised data cells, and %1. Right-click to choose what's plotted at the right")
         .arg(tips[view]));
     update();
 }
