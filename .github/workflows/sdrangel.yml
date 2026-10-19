@@ -1,5 +1,3 @@
-# https://stackoverflow.com/questions/69126323/github-actions-creating-releases-for-multiple-branches-in-a-single-workflow
-# https://gist.github.com/NickNaso/0d478f1481686d5bcc868cac06620a60
 name: SDRangel CI/CD
 
 on:
@@ -254,7 +252,12 @@ jobs:
       - build
       - build_mac
       - build_linux
-    if: startsWith(github.ref, 'refs/tags/')
+    if: |
+      always() &&
+      startsWith(github.ref, 'refs/tags/') &&
+      needs.build.result == 'success' &&
+      needs.build_mac.result == 'success' &&
+      needs.build_linux.result == 'success'
     steps:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
