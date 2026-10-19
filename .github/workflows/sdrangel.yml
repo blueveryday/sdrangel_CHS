@@ -4,20 +4,19 @@ name: SDRangel CI/CD
 
 on:
   push:
-    branches:
-      - master
-      - mac_ci
-      - fix-*
-      - feature-*
-    tags-ignore:
+    tags:
       - 'v*'
-  pull_request:
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
     strategy:
       fail-fast: false
       matrix:
@@ -87,6 +86,20 @@ jobs:
           arch: ${{matrix.config.QT_ARCH}}
           setup-python: false
           modules: 'qtcharts qtscxml qt5compat qtlocation qtmultimedia qtpositioning qtserialport qtspeech qtwebsockets qtwebengine qtshadertools qtwebchannel'
+
+      - name: Embed Chinese translation
+        shell: bash
+        run: |
+          python - <<'EOF'
+          data = open('translations/sdrangel_zh_CN.qm', 'rb').read()
+          with open('app/zh_cn_qm.h', 'w') as f:
+              f.write('static const unsigned char zh_cn_qm_data[] = {\n')
+              for i in range(0, len(data), 20):
+                  f.write(','.join(str(b) for b in data[i:i+20]) + ',\n')
+              f.write('0};\n')
+              f.write('static const int zh_cn_qm_len = %d;\n' % len(data))
+          EOF
+
       - name: build sdrangel on Windows
         if: startsWith(matrix.config.os, 'windows')
         run: |
@@ -100,12 +113,18 @@ jobs:
         run: Get-PSDrive
       - name: Get version
         id: get_version
-        run: echo "version=$(grep sdrangel_VERSION build/CMakeCache.txt | cut -d "=" -f2)" >> $env:GITHUB_OUTPUT
+        shell: bash
+        run: |
+          echo "version=$(grep sdrangel_VERSION build/CMakeCache.txt | cut -d = -f2)" >> $GITHUB_OUTPUT
+          echo "sha7=$(git rev-parse --short=7 HEAD)" >> $GITHUB_OUTPUT
+      - name: Rename artifact with commit
+        run: |
+          Copy-Item "build/sdrangel-${{ steps.get_version.outputs.version }}-win64.exe" "build/sdrangel-${{ steps.get_version.outputs.version }}-${{ steps.get_version.outputs.sha7 }}-win64.exe"
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: sdrangel-${{ steps.get_version.outputs.version }}-win64.exe
-          path: ${{ github.workspace }}/build/sdrangel-${{ steps.get_version.outputs.version }}-win64.exe
+          name: sdrangel-${{ steps.get_version.outputs.version }}-${{ steps.get_version.outputs.sha7 }}-win64.exe
+          path: ${{ github.workspace }}/build/sdrangel-${{ steps.get_version.outputs.version }}-${{ steps.get_version.outputs.sha7 }}-win64.exe
 
   build_mac:
     runs-on: macos-26
@@ -130,6 +149,13 @@ jobs:
           brew install opencv
       - name: Install brew packages
         run: brew install nasm boost hidapi libusb fftw ffmpeg faad2 zlib airspy airspyhf hackrf rtl-sdr libbladerf soapysdr qt subversion ncurses
+      - name: Embed Chinese translation
+        run: |
+          xxd -i -n zh_cn_qm_data translations/sdrangel_zh_CN.qm \
+            | sed -e 's/unsigned char/static const unsigned char/' \
+                  -e 's/unsigned int/static const int/' \
+                  -e 's/zh_cn_qm_data_len/zh_cn_qm_len/' \
+            > app/zh_cn_qm.h
       - name: Configure SDRangel
         run: |
           mkdir build && cd build
@@ -138,11 +164,39 @@ jobs:
         run: |
           cd build
           make -j3
+      - name: Create dmg
+        run: |
+          cd build
+          RETRIES=5
+          COUNT=1
+          set +e
+          while [ $COUNT -lt $RETRIES ]; do
+            make package
+            if [ $? -eq 0 ]; then
+              RETRIES=0
+              break
+            fi
+            let COUNT=$COUNT+1
+          done
+        shell: bash
+        continue-on-error: true
+      - name: Get version
+        id: get_version
+        run: |
+          echo "version=$(grep sdrangel_VERSION build/CMakeCache.txt | cut -d = -f2)" >> $GITHUB_OUTPUT
+          echo "sha7=$(git rev-parse --short=7 HEAD)" >> $GITHUB_OUTPUT
+      - name: Rename artifact with commit
+        run: |
+          mv "build/$(grep CPACK_PACKAGE_FILE_NAME build/CMakeCache.txt | cut -d = -f2).dmg" \
+             "build/sdrangel-${{ steps.get_version.outputs.version }}-${{ steps.get_version.outputs.sha7 }}-mac64.dmg"
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdrangel-${{ steps.get_version.outputs.version }}-${{ steps.get_version.outputs.sha7 }}-mac64.dmg
+          path: ${{ github.workspace }}/build/sdrangel-${{ steps.get_version.outputs.version }}-${{ steps.get_version.outputs.sha7 }}-mac64.dmg
 
   build_linux:
     runs-on: ubuntu-24.04
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@v4
         with:
@@ -170,6 +224,47 @@ jobs:
             python3-mako python3-cheetah python3-numpy \
             autoconf automake libtool ninja-build
           bash cmake/ci/build_sdrplay.sh
+      - name: Embed Chinese translation
+        run: |
+          xxd -i -n zh_cn_qm_data translations/sdrangel_zh_CN.qm \
+            | sed -e 's/unsigned char/static const unsigned char/' \
+                  -e 's/unsigned int/static const int/' \
+                  -e 's/zh_cn_qm_data_len/zh_cn_qm_len/' \
+            > app/zh_cn_qm.h
       - name: Build SDRangel on Linux
         run: |
           debuild -i -us -uc -b
+      - name: Get version
+        id: get_version
+        run: |
+          echo "version=$(find . -maxdepth 2 -name CMakeCache.txt | head -1 | xargs grep sdrangel_VERSION | cut -d = -f2)" >> $GITHUB_OUTPUT
+          echo "sha7=$(git rev-parse --short=7 HEAD)" >> $GITHUB_OUTPUT
+      - name: Rename
+        run: mv ../sdrangel_*_amd64.deb sdrangel_${{ steps.get_version.outputs.version }}_${{ steps.get_version.outputs.sha7 }}_ubuntu-24.04_amd64.deb
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdrangel_${{ steps.get_version.outputs.version }}_${{ steps.get_version.outputs.sha7 }}_ubuntu-24.04_amd64.deb
+          path: sdrangel_${{ steps.get_version.outputs.version }}_${{ steps.get_version.outputs.sha7 }}_ubuntu-24.04_amd64.deb
+
+  release:
+    name: Publish release
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - build_mac
+      - build_linux
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - name: List artifacts
+        run: ls -l artifacts
+      - name: Upload release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ needs.build.outputs.version }}
+          files: artifacts/*

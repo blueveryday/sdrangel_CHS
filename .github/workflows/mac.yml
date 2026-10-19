@@ -40,6 +40,13 @@ jobs:
           host: 'mac'
           arch: 'clang_64'
           modules: 'qtcharts qtscxml qt5compat qtlocation qtmultimedia qtpositioning qtserialport qtspeech qtwebsockets qtwebengine qtshadertools qtwebchannel'
+      - name: Embed Chinese translation
+        run: |
+          xxd -i -n zh_cn_qm_data translations/sdrangel_zh_CN.qm \
+            | sed -e 's/unsigned char/static const unsigned char/' \
+                  -e 's/unsigned int/static const int/' \
+                  -e 's/zh_cn_qm_data_len/zh_cn_qm_len/' \
+            > app/zh_cn_qm.h
       - name: Configure SDRangel
         run: |
           mkdir build && cd build
@@ -115,6 +122,13 @@ jobs:
           host: 'mac'
           arch: 'clang_64'
           modules: 'qtcharts qtscxml qt5compat qtlocation qtmultimedia qtpositioning qtserialport qtspeech qtwebsockets qtwebengine qtshadertools qtwebchannel'
+      - name: Embed Chinese translation
+        run: |
+          xxd -i -n zh_cn_qm_data translations/sdrangel_zh_CN.qm \
+            | sed -e 's/unsigned char/static const unsigned char/' \
+                  -e 's/unsigned int/static const int/' \
+                  -e 's/zh_cn_qm_data_len/zh_cn_qm_len/' \
+            > app/zh_cn_qm.h
       - name: Configure SDRangel
         run: |
           mkdir build && cd build
@@ -275,4 +289,4 @@ jobs:
         with:
           name: mac-${{ matrix.arch }}-startup-log
           path: ${{ runner.temp }}/sdrangel-smoke.log
-          if-no-files-found: ignore          
+          if-no-files-found: ignore

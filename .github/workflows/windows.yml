@@ -81,6 +81,18 @@ jobs:
           arch: ${{matrix.config.QT_ARCH}}
           setup-python: 'false'
           modules: 'qtcharts qtscxml qt5compat qtlocation qtmultimedia qtpositioning qtserialport qtspeech qtwebsockets qtwebengine qtshadertools qtwebchannel'
+      - name: Embed Chinese translation
+        shell: bash
+        run: |
+          python - <<'EOF'
+          data = open('translations/sdrangel_zh_CN.qm', 'rb').read()
+          with open('app/zh_cn_qm.h', 'w') as f:
+              f.write('static const unsigned char zh_cn_qm_data[] = {\n')
+              for i in range(0, len(data), 20):
+                  f.write(','.join(str(b) for b in data[i:i+20]) + ',\n')
+              f.write('0};\n')
+              f.write('static const int zh_cn_qm_len = %d;\n' % len(data))
+          EOF
       - name: build sdrangel on Windows
         if: startsWith(matrix.config.os, 'windows')
         run: |

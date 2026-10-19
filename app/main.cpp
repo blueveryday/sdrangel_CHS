@@ -27,6 +27,11 @@
 #include <QFontDatabase>
 #include <QSysInfo>
 #include <QSettings>
+#include <QTranslator>
+#if __has_include("zh_cn_qm.h")
+#include "zh_cn_qm.h"
+#define HAVE_ZH_CN_QM 1
+#endif
 #include <exception>
 #include <cstdlib>
 #if defined(HAVE_LIBUNWIND)
@@ -183,6 +188,18 @@ static int runQtApplication(int argc, char* argv[], qtwebapp::LoggerWithFile *lo
     }
 
     SDRangelApplication a(argc, argv);
+
+    QTranslator *zhTranslator = new QTranslator(&a);
+#ifdef HAVE_ZH_CN_QM
+    bool zhLoaded = zhTranslator->load(zh_cn_qm_data, zh_cn_qm_len);
+#else
+    bool zhLoaded = zhTranslator->load("sdrangel_zh_CN", QCoreApplication::applicationDirPath() + "/translations");
+#endif
+    if (zhLoaded) {
+        a.installTranslator(zhTranslator);
+    } else {
+        qWarning("Failed to load Chinese translation");
+    }
 
     // Give the desktop environment an exact desktop-entry ID so startup
     // notification, window activation, taskbar grouping, and icons do not

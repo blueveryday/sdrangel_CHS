@@ -43,6 +43,13 @@ jobs:
             python3-mako python3-cheetah python3-numpy \
             autoconf automake libtool ninja-build
           bash cmake/ci/build_sdrplay.sh
+      - name: Embed Chinese translation
+        run: |
+          xxd -i -n zh_cn_qm_data translations/sdrangel_zh_CN.qm \
+            | sed -e 's/unsigned char/static const unsigned char/' \
+                  -e 's/unsigned int/static const int/' \
+                  -e 's/zh_cn_qm_data_len/zh_cn_qm_len/' \
+            > app/zh_cn_qm.h
       - name: Build SDRangel
         run: |
           if [ "${RUNNING_IN_ACT:-}" = "true" ]; then
