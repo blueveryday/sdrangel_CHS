@@ -34,7 +34,7 @@ DeviceSetSelectionDialog::DeviceSetSelectionDialog(std::vector<DeviceUISet*>& de
     m_hasChanged(false)
 {
     ui->setupUi(this);
-    setWindowTitle("Device"); // Change window title
+    setWindowTitle(QObject::tr("Device")); // Change window title
 
     DeviceUISet *originDeviceUISet = deviceUIs[channelDeviceSetIndex];
     int originDeviceType = (int) originDeviceUISet->m_deviceGUI->getDeviceType();

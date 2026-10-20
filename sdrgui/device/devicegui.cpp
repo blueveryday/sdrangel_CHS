@@ -59,41 +59,41 @@ DeviceGUI::DeviceGUI(QWidget *parent) :
     m_indexLabel->setFixedSize(32, 16);
     m_indexLabel->setStyleSheet("QLabel { background-color: rgb(128, 128, 128); qproperty-alignment: AlignCenter; }");
     m_indexLabel->setText(tr("X:%1").arg(m_deviceSetIndex));
-    m_indexLabel->setToolTip("Device type and set index");
+    m_indexLabel->setToolTip(QObject::tr("Device type and set index"));
 
     m_settingsButton = new QPushButton();
     m_settingsButton->setFixedSize(20, 20);
     QIcon settingsIcon(":/gear.png");
     m_settingsButton->setIcon(settingsIcon);
-    m_settingsButton->setToolTip("Common settings");
+    m_settingsButton->setToolTip(QObject::tr("Common settings"));
 
     m_changeDeviceButton = new QPushButton();
     m_changeDeviceButton->setFixedSize(20, 20);
     QIcon changeDeviceIcon(":/swap.png");
     m_changeDeviceButton->setIcon(changeDeviceIcon);
-    m_changeDeviceButton->setToolTip("Change device");
+    m_changeDeviceButton->setToolTip(QObject::tr("Change device"));
 
     m_reloadDeviceButton = new QPushButton();
     m_reloadDeviceButton->setFixedSize(20, 20);
     QIcon reloadDeviceIcon(":/recycle.png");
     m_reloadDeviceButton->setIcon(reloadDeviceIcon);
-    m_reloadDeviceButton->setToolTip("Reload device");
+    m_reloadDeviceButton->setToolTip(QObject::tr("Reload device"));
 
     m_addChannelsButton = new QPushButton();
     m_addChannelsButton->setFixedSize(20, 20);
     QIcon addChannelsIcon(":/channels_add.png");
     m_addChannelsButton->setIcon(addChannelsIcon);
-    m_addChannelsButton->setToolTip("Add channels");
+    m_addChannelsButton->setToolTip(QObject::tr("Add channels"));
 
     m_deviceSetPresetsButton = new QPushButton();
     m_deviceSetPresetsButton->setFixedSize(20, 20);
     QIcon deviceSetPresetsIcon(":/star.png");
     m_deviceSetPresetsButton->setIcon(deviceSetPresetsIcon);
-    m_deviceSetPresetsButton->setToolTip("Device set presets");
+    m_deviceSetPresetsButton->setToolTip(QObject::tr("Device set presets"));
 
     m_titleLabel = new QLabel();
-    m_titleLabel->setText("Device");
-    m_titleLabel->setToolTip("Device identification");
+    m_titleLabel->setText(QObject::tr("Device"));
+    m_titleLabel->setToolTip(QObject::tr("Device identification"));
     m_titleLabel->setFixedHeight(20);
     m_titleLabel->setMinimumWidth(20);
     m_titleLabel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
@@ -102,56 +102,56 @@ DeviceGUI::DeviceGUI(QWidget *parent) :
     m_helpButton->setFixedSize(20, 20);
     QIcon helpIcon(":/help.png");
     m_helpButton->setIcon(helpIcon);
-    m_helpButton->setToolTip("Show device documentation in browser");
+    m_helpButton->setToolTip(QObject::tr("Show device documentation in browser"));
 
     m_moveButton = new QPushButton();
     m_moveButton->setFixedSize(20, 20);
     QIcon moveIcon(":/exit.png");
     m_moveButton->setIcon(moveIcon);
-    m_moveButton->setToolTip("Move to another workspace");
+    m_moveButton->setToolTip(QObject::tr("Move to another workspace"));
 
     m_shrinkButton = new QPushButton();
     m_shrinkButton->setFixedSize(20, 20);
     QIcon shrinkIcon(":/shrink.png");
     m_shrinkButton->setIcon(shrinkIcon);
-    m_shrinkButton->setToolTip("Adjust window to minimum size");
+    m_shrinkButton->setToolTip(QObject::tr("Adjust window to minimum size"));
 
     m_maximizeButton = new QPushButton();
     m_maximizeButton->setFixedSize(20, 20);
     QIcon maximizeIcon(":/maximize.png");
     m_maximizeButton->setIcon(maximizeIcon);
-    m_maximizeButton->setToolTip("Adjust window to maximum size");
+    m_maximizeButton->setToolTip(QObject::tr("Adjust window to maximum size"));
 
     m_hideButton = new QPushButton();
     m_hideButton->setFixedSize(20, 20);
     QIcon hideIcon(":/hide.png");
     m_hideButton->setIcon(hideIcon);
-    m_hideButton->setToolTip("Hide device");
+    m_hideButton->setToolTip(QObject::tr("Hide device"));
 
     m_closeButton = new QPushButton();
     m_closeButton->setFixedSize(20, 20);
     QIcon closeIcon(":/cross.png");
     m_closeButton->setIcon(closeIcon);
-    m_closeButton->setToolTip("Close device");
+    m_closeButton->setToolTip(QObject::tr("Close device"));
 
     m_statusLabel = new QLabel();
     // m_statusLabel->setText("OK"); // for future use
     m_statusLabel->setFixedHeight(20);
     m_statusLabel->setMinimumWidth(20);
     m_statusLabel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
-    m_statusLabel->setToolTip("Device status");
+    m_statusLabel->setToolTip(QObject::tr("Device status"));
 
     m_showSpectrumButton = new QPushButton();
     m_showSpectrumButton->setFixedSize(20, 20);
     QIcon showSpectrumIcon(":/dsb.png");
     m_showSpectrumButton->setIcon(showSpectrumIcon);
-    m_showSpectrumButton->setToolTip("Show main spectrum");
+    m_showSpectrumButton->setToolTip(QObject::tr("Show main spectrum"));
 
     m_showAllChannelsButton = new QPushButton();
     m_showAllChannelsButton->setFixedSize(20, 20);
     QIcon showAllChannelsIcon(":/channels.png");
     m_showAllChannelsButton->setIcon(showAllChannelsIcon);
-    m_showAllChannelsButton->setToolTip("Show all channels");
+    m_showAllChannelsButton->setToolTip(QObject::tr("Show all channels"));
 
     m_layouts = new QVBoxLayout();
     m_layouts->setContentsMargins(m_resizer.m_gripSize, m_resizer.m_gripSize, m_resizer.m_gripSize, m_resizer.m_gripSize);

@@ -96,12 +96,12 @@ void FFTWisdomDialog::processFinished(int exitCode, QProcess::ExitStatus exitSta
 
     if ((exitCode != 0) || (exitStatus != QProcess::NormalExit))
     {
-        QMessageBox::critical(this, "FFTW Wisdom", "fftwf-widdsom program failed");
+        QMessageBox::critical(this, QObject::tr("FFTW Wisdom"), QObject::tr("fftwf-widdsom program failed"));
     }
     else
     {
         QString log = m_process->readAllStandardOutput();
-        QMessageBox::information(this, "FFTW Wisdom", QString("Success\n%1").arg(log));
+        QMessageBox::information(this, QObject::tr("FFTW Wisdom"), QObject::tr("Success\n%1").arg(log));
 
     }
 

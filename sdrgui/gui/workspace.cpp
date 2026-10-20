@@ -83,7 +83,7 @@ Workspace::Workspace(int index, QWidget *parent, Qt::WindowFlags flags) :
     m_configurationPresetsButton = new QPushButton();
     QIcon configurationPresetsIcon(":/star.png");
     m_configurationPresetsButton->setIcon(configurationPresetsIcon);
-    m_configurationPresetsButton->setToolTip("Configuration presets");
+    m_configurationPresetsButton->setToolTip(tr("Configuration presets"));
     m_configurationPresetsButton->setFixedSize(20, 20);
     m_configurationPresetsButton->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
 
@@ -100,21 +100,21 @@ Workspace::Workspace(int index, QWidget *parent, Qt::WindowFlags flags) :
     m_addRxDeviceButton = new QPushButton();
     QIcon addRxIcon(":/rx.png");
     m_addRxDeviceButton->setIcon(addRxIcon);
-    m_addRxDeviceButton->setToolTip("Add Rx device");
+    m_addRxDeviceButton->setToolTip(tr("Add Rx device"));
     m_addRxDeviceButton->setFixedSize(20, 20);
     m_addRxDeviceButton->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_R));
 
     m_addTxDeviceButton = new QPushButton();
     QIcon addTxIcon(":/tx.png");
     m_addTxDeviceButton->setIcon(addTxIcon);
-    m_addTxDeviceButton->setToolTip("Add Tx device");
+    m_addTxDeviceButton->setToolTip(tr("Add Tx device"));
     m_addTxDeviceButton->setFixedSize(20, 20);
     m_addTxDeviceButton->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_T));
 
     m_addMIMODeviceButton = new QPushButton();
     QIcon addMIMOIcon(":/mimo.png");
     m_addMIMODeviceButton->setIcon(addMIMOIcon);
-    m_addMIMODeviceButton->setToolTip("Add MIMO device");
+    m_addMIMODeviceButton->setToolTip(tr("Add MIMO device"));
     m_addMIMODeviceButton->setFixedSize(20, 20);
     m_addMIMODeviceButton->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_M));
 
@@ -125,14 +125,14 @@ Workspace::Workspace(int index, QWidget *parent, Qt::WindowFlags flags) :
     m_addFeatureButton = new QPushButton();
     QIcon addFeatureIcon(":/tool_add.png");
     m_addFeatureButton->setIcon(addFeatureIcon);
-    m_addFeatureButton->setToolTip("Add features");
+    m_addFeatureButton->setToolTip(tr("Add features"));
     m_addFeatureButton->setFixedSize(20, 20);
     m_addFeatureButton->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_E));
 
     m_featurePresetsButton = new QPushButton();
     QIcon presetsIcon(":/tool_star.png");
     m_featurePresetsButton->setIcon(presetsIcon);
-    m_featurePresetsButton->setToolTip("Feature presets");
+    m_featurePresetsButton->setToolTip(tr("Feature presets"));
     m_featurePresetsButton->setFixedSize(20, 20);
     m_featurePresetsButton->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_P));
 
@@ -140,7 +140,7 @@ Workspace::Workspace(int index, QWidget *parent, Qt::WindowFlags flags) :
     QFont mcpServerFont = m_mcpServerButton->font();
     mcpServerFont.setBold(true);
     m_mcpServerButton->setFont(mcpServerFont);
-    m_mcpServerButton->setToolTip("MCP Server feature is not open");
+    m_mcpServerButton->setToolTip(tr("MCP Server feature is not open"));
     m_mcpServerButton->setFixedSize(20, 20);
     m_mcpServerButton->setEnabled(false);
 
@@ -151,25 +151,25 @@ Workspace::Workspace(int index, QWidget *parent, Qt::WindowFlags flags) :
     m_cascadeSubWindows = new QPushButton();
     QIcon cascadeSubWindowsIcon(":/cascade.png");
     m_cascadeSubWindows->setIcon(cascadeSubWindowsIcon);
-    m_cascadeSubWindows->setToolTip("Cascade sub windows");
+    m_cascadeSubWindows->setToolTip(tr("Cascade sub windows"));
     m_cascadeSubWindows->setFixedSize(20, 20);
 
     m_tileSubWindows = new QPushButton();
     QIcon tileSubWindowsIcon(":/tiles.png");
     m_tileSubWindows->setIcon(tileSubWindowsIcon);
-    m_tileSubWindows->setToolTip("Tile sub windows");
+    m_tileSubWindows->setToolTip(tr("Tile sub windows"));
     m_tileSubWindows->setFixedSize(20, 20);
 
     m_stackVerticalSubWindows = new QPushButton();
     QIcon stackVerticalSubWindowsIcon(":/stackvertical.png");
     m_stackVerticalSubWindows->setIcon(stackVerticalSubWindowsIcon);
-    m_stackVerticalSubWindows->setToolTip("Stack sub windows vertically");
+    m_stackVerticalSubWindows->setToolTip(tr("Stack sub windows vertically"));
     m_stackVerticalSubWindows->setFixedSize(20, 20);
 
     m_stackSubWindows = new QPushButton();
     QIcon stackSubWindowsIcon(":/stackcolumns.png");
     m_stackSubWindows->setIcon(stackSubWindowsIcon);
-    m_stackSubWindows->setToolTip("Stack sub windows in columns. Right click to stack automatically.");
+    m_stackSubWindows->setToolTip(tr("Stack sub windows in columns. Right click to stack automatically."));
     m_stackSubWindows->setFixedSize(20, 20);
     CRightClickEnabler *stackSubWindowsRightClickEnabler = new CRightClickEnabler(m_stackSubWindows);
     connect(stackSubWindowsRightClickEnabler, &CRightClickEnabler::rightClick, this, &Workspace::autoStackSubWindows);
@@ -178,14 +178,14 @@ Workspace::Workspace(int index, QWidget *parent, Qt::WindowFlags flags) :
     QIcon tabSubWindowsIcon(":/tab.png");
     m_tabSubWindows->setIcon(tabSubWindowsIcon);
     m_tabSubWindows->setCheckable(true);
-    m_tabSubWindows->setToolTip("Display sub windows in tabs");
+    m_tabSubWindows->setToolTip(tr("Display sub windows in tabs"));
     m_tabSubWindows->setFixedSize(20, 20);
 
     m_connectionOverlayButton = new ButtonSwitch();
     m_connectionOverlayButton->setCheckable(true);
     m_connectionOverlayButton->setFixedSize(20, 20);
     // Must match the shortcut created in MainWindow. NativeText shows Cmd on macOS.
-    m_connectionOverlayButton->setToolTip(QString("Show device, channel, spectrum and feature connections (%1)")
+    m_connectionOverlayButton->setToolTip(tr("Show device, channel, spectrum and feature connections (%1)")
         .arg(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_L).toString(QKeySequence::NativeText)));
     QIcon connectionOverlayIcon(":/wiring.png");
     m_connectionOverlayButton->setIcon(connectionOverlayIcon);
@@ -193,13 +193,13 @@ Workspace::Workspace(int index, QWidget *parent, Qt::WindowFlags flags) :
     m_normalButton = new QPushButton();
     QIcon normalIcon(":/dock.png");
     m_normalButton->setIcon(normalIcon);
-    m_normalButton->setToolTip("Dock/undock");
+    m_normalButton->setToolTip(tr("Dock/undock"));
     m_normalButton->setFixedSize(20, 20);
 
     m_closeButton = new QPushButton();
     QIcon closeIcon(":/hide.png");
     m_closeButton->setIcon(closeIcon);
-    m_closeButton->setToolTip("Hide workspace");
+    m_closeButton->setToolTip(tr("Hide workspace"));
     m_closeButton->setFixedSize(20, 20);
 
     m_titleBarLayout->addWidget(m_titleLabel);
@@ -984,14 +984,14 @@ void Workspace::updateStartStopButton(bool checked)
         QIcon startIcon(":/play.png");
         m_startStopButton->setIcon(startIcon);
         m_startStopButton->setStyleSheet("QToolButton { background-color : blue; }");
-        m_startStopButton->setToolTip("Start all devices in workspace");
+        m_startStopButton->setToolTip(tr("Start all devices in workspace"));
     }
     else
     {
         QIcon stopIcon(":/stop.png");
         m_startStopButton->setIcon(stopIcon);
         m_startStopButton->setStyleSheet("QToolButton { background-color : green; }");
-        m_startStopButton->setToolTip("Stop all devices in workspace");
+        m_startStopButton->setToolTip(tr("Stop all devices in workspace"));
     }
 }
 
@@ -1003,13 +1003,13 @@ void Workspace::updateMCPServerButton(bool available, bool running, int port)
         : QString());
 
     if (!available) {
-        m_mcpServerButton->setToolTip("MCP Server feature is not open");
+        m_mcpServerButton->setToolTip(tr("MCP Server feature is not open"));
     } else if (running && (port > 0)) {
-        m_mcpServerButton->setToolTip(QString("Show MCP Server (running on port %1)").arg(port));
+        m_mcpServerButton->setToolTip(tr("Show MCP Server (running on port %1)").arg(port));
     } else if (running) {
-        m_mcpServerButton->setToolTip("Show MCP Server (running)");
+        m_mcpServerButton->setToolTip(tr("Show MCP Server (running)"));
     } else {
-        m_mcpServerButton->setToolTip("Show MCP Server");
+        m_mcpServerButton->setToolTip(tr("Show MCP Server"));
     }
 }
 

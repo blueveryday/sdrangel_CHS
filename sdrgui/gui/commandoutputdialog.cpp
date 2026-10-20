@@ -88,7 +88,7 @@ void CommandOutputDialog::refresh()
         else
         {
             ui->runningState->setStyleSheet("QToolButton { background-color : green; }");
-            ui->errorText->setText("No error");
+            ui->errorText->setText(QObject::tr("No error"));
         }
 
         int processExitCode;
@@ -114,23 +114,23 @@ void CommandOutputDialog::setErrorText(const QProcess::ProcessError& processErro
     switch(processError)
     {
     case QProcess::FailedToStart:
-        ui->errorText->setText("Failed to start");
+        ui->errorText->setText(QObject::tr("Failed to start"));
         break;
     case QProcess::Crashed:
-        ui->errorText->setText("Crashed");
+        ui->errorText->setText(QObject::tr("Crashed"));
         break;
     case QProcess::Timedout:
-        ui->errorText->setText("Timed out");
+        ui->errorText->setText(QObject::tr("Timed out"));
         break;
     case QProcess::WriteError:
-        ui->errorText->setText("Write error");
+        ui->errorText->setText(QObject::tr("Write error"));
         break;
     case QProcess::ReadError:
-        ui->errorText->setText("Read error");
+        ui->errorText->setText(QObject::tr("Read error"));
         break;
     case QProcess::UnknownError:
     default:
-        ui->errorText->setText("Unknown error");
+        ui->errorText->setText(QObject::tr("Unknown error"));
         break;
     }
 }
@@ -140,13 +140,13 @@ void CommandOutputDialog::setExitText(const QProcess::ExitStatus& processExit)
     switch(processExit)
     {
     case QProcess::NormalExit:
-        ui->exitText->setText("Normal exit");
+        ui->exitText->setText(QObject::tr("Normal exit"));
         break;
     case QProcess::CrashExit:
-        ui->exitText->setText("Program crashed");
+        ui->exitText->setText(QObject::tr("Program crashed"));
         break;
     default:
-        ui->exitText->setText("Unknown state");
+        ui->exitText->setText(QObject::tr("Unknown state"));
         break;
     }
 }

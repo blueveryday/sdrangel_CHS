@@ -60,17 +60,17 @@ FeatureGUI::FeatureGUI(QWidget *parent) :
     m_indexLabel->setFixedSize(40, 16);
     m_indexLabel->setStyleSheet("QLabel { background-color: rgb(128, 128, 128); qproperty-alignment: AlignCenter; }");
     m_indexLabel->setText(tr("F:%1").arg(m_featureIndex));
-    m_indexLabel->setToolTip("Feature index");
+    m_indexLabel->setToolTip(QObject::tr("Feature index"));
 
     m_settingsButton = new QPushButton();
     m_settingsButton->setFixedSize(20, 20);
     QIcon settingsIcon(":/gear.png");
     m_settingsButton->setIcon(settingsIcon);
-    m_settingsButton->setToolTip("Common settings");
+    m_settingsButton->setToolTip(QObject::tr("Common settings"));
 
     m_titleLabel = new QLabel();
-    m_titleLabel->setText("Feature");
-    m_titleLabel->setToolTip("Feature name");
+    m_titleLabel->setText(QObject::tr("Feature"));
+    m_titleLabel->setToolTip(QObject::tr("Feature name"));
     m_titleLabel->setFixedHeight(20);
     m_titleLabel->setMinimumWidth(20);
     m_titleLabel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
@@ -79,44 +79,44 @@ FeatureGUI::FeatureGUI(QWidget *parent) :
     m_helpButton->setFixedSize(20, 20);
     QIcon helpIcon(":/help.png");
     m_helpButton->setIcon(helpIcon);
-    m_helpButton->setToolTip("Show feature documentation in browser");
+    m_helpButton->setToolTip(QObject::tr("Show feature documentation in browser"));
 
     m_moveButton = new QPushButton();
     m_moveButton->setFixedSize(20, 20);
     QIcon moveIcon(":/exit.png");
     m_moveButton->setIcon(moveIcon);
-    m_moveButton->setToolTip("Move to another workspace");
+    m_moveButton->setToolTip(QObject::tr("Move to another workspace"));
 
     m_shrinkButton = new QPushButton();
     m_shrinkButton->setFixedSize(20, 20);
     QIcon shrinkIcon(":/shrink.png");
     m_shrinkButton->setIcon(shrinkIcon);
-    m_shrinkButton->setToolTip("Adjust window to minimum size");
+    m_shrinkButton->setToolTip(QObject::tr("Adjust window to minimum size"));
 
     m_maximizeButton = new QPushButton();
     m_maximizeButton->setFixedSize(20, 20);
     QIcon maximizeIcon(":/maximize.png");
     m_maximizeButton->setIcon(maximizeIcon);
-    m_maximizeButton->setToolTip("Adjust window to maximum size in workspace");
+    m_maximizeButton->setToolTip(QObject::tr("Adjust window to maximum size in workspace"));
 
     m_hideButton = new QPushButton();
     m_hideButton->setFixedSize(20, 20);
     QIcon hideIcon(":/hide.png");
     m_hideButton->setIcon(hideIcon);
-    m_hideButton->setToolTip("Hide feature");
+    m_hideButton->setToolTip(QObject::tr("Hide feature"));
 
     m_closeButton = new QPushButton();
     m_closeButton->setFixedSize(20, 20);
     QIcon closeIcon(":/cross.png");
     m_closeButton->setIcon(closeIcon);
-    m_closeButton->setToolTip("Close feature");
+    m_closeButton->setToolTip(QObject::tr("Close feature"));
 
     m_statusLabel = new QLabel();
     // m_statusLabel->setText("OK"); // for future use
     m_statusLabel->setFixedHeight(20);
     m_statusLabel->setMinimumWidth(20);
     m_statusLabel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
-    m_statusLabel->setToolTip("Feature status");
+    m_statusLabel->setToolTip(QObject::tr("Feature status"));
 
     m_layouts = new QVBoxLayout();
     m_layouts->setContentsMargins(m_resizer.m_gripSize, m_resizer.m_gripSize, m_resizer.m_gripSize, m_resizer.m_gripSize);
@@ -395,14 +395,14 @@ void FeatureGUI::maximizeWindow()
         }
         showNormal(); // If we don't go back to normal first, window doesn't get bigger
         showFullScreen();
-        m_shrinkButton->setToolTip("Adjust window to maximum size in workspace");
+        m_shrinkButton->setToolTip(QObject::tr("Adjust window to maximum size in workspace"));
     }
     else
     {
         m_disableResize = true;
         showMaximized();
-        m_shrinkButton->setToolTip("Restore window to normal");
-        m_maximizeButton->setToolTip("Make window full screen");
+        m_shrinkButton->setToolTip(QObject::tr("Restore window to normal"));
+        m_maximizeButton->setToolTip(QObject::tr("Make window full screen"));
         m_disableResize = false;
         // QOpenGLWidget widgets don't always paint properly first time after being maximized,
         // so force an update. Should really fix why they aren't painted properly in the first place
@@ -423,7 +423,7 @@ void FeatureGUI::shrinkWindow()
         m_mdi->addSubWindow(this);
         show();
         showMaximized();
-        m_shrinkButton->setToolTip("Restore window to normal");
+        m_shrinkButton->setToolTip(QObject::tr("Restore window to normal"));
         m_disableResize = false;
         m_mdi = nullptr;
     }
@@ -431,8 +431,8 @@ void FeatureGUI::shrinkWindow()
     {
         m_disableResize = true;
         showNormal();
-        m_shrinkButton->setToolTip("Adjust window to minimum size");
-        m_maximizeButton->setToolTip("Adjust window to maximum size in workspace");
+        m_shrinkButton->setToolTip(QObject::tr("Adjust window to minimum size"));
+        m_maximizeButton->setToolTip(QObject::tr("Adjust window to maximum size in workspace"));
         m_disableResize = false;
     }
     else

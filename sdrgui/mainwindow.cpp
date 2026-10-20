@@ -310,6 +310,7 @@ MainWindow::MainWindow(qtwebapp::LoggerWithFile *logger, const MainParser& parse
 
 MainWindow::~MainWindow()
 {
+	m_shuttingDown = true;
 	qDebug() << "MainWindow::~MainWindow";
 
     setConnectionOverlayEnabled(false);
@@ -985,7 +986,7 @@ void LoadConfigurationFSM::clearWorkspace()
 
     if (m_waitBox)
     {
-        m_waitBox->setLabelText("Deleting existing...");
+        m_waitBox->setLabelText(QObject::tr("Deleting existing..."));
         m_waitBox->setValue(5);
     }
 
@@ -998,7 +999,7 @@ void LoadConfigurationFSM::createWorkspaces()
 
     if (m_waitBox)
     {
-        m_waitBox->setLabelText("Creating workspaces...");
+        m_waitBox->setLabelText(QObject::tr("Creating workspaces..."));
         m_waitBox->setValue(20);
     }
 
@@ -1017,7 +1018,7 @@ void LoadConfigurationFSM::loadDeviceSets()
 
     if (m_waitBox)
     {
-        m_waitBox->setLabelText("Loading device sets...");
+        m_waitBox->setLabelText(QObject::tr("Loading device sets..."));
         m_waitBox->setValue(25);
     }
 
@@ -1140,7 +1141,7 @@ void LoadConfigurationFSM::loadDeviceSetSettings()
 
     if (m_waitBox)
     {
-        m_waitBox->setLabelText("Loading device set settings...");
+        m_waitBox->setLabelText(QObject::tr("Loading device set settings..."));
         m_waitBox->setValue(70);
     }
 
@@ -1165,7 +1166,7 @@ void LoadConfigurationFSM::loadFeatureSets()
 
     if (m_waitBox)
     {
-        m_waitBox->setLabelText("Loading feature sets...");
+        m_waitBox->setLabelText(QObject::tr("Loading feature sets..."));
         m_waitBox->setValue(75);
     }
 
@@ -1197,7 +1198,7 @@ void LoadConfigurationFSM::restoreGeometry()
     if (m_waitBox)
     {
         m_waitBox->setValue(90);
-        m_waitBox->setLabelText("Finalizing...");
+        m_waitBox->setLabelText(QObject::tr("Finalizing..."));
     }
 
     for (int i = 0; i < m_configuration->getNumberOfWorkspaceGeometries(); i++)
@@ -3439,7 +3440,7 @@ void MainWindow::on_action_FFTWisdom_triggered()
 
     if (m_fftWisdomProcess)
     {
-        QMessageBox::information(this, "FFTW Wisdom", QString("Process %1 is already running").arg(m_fftWisdomProcess->processId()));
+        QMessageBox::information(this, QObject::tr("FFTW Wisdom"), QObject::tr("Process %1 is already running").arg(m_fftWisdomProcess->processId()));
         return;
     }
 
@@ -3462,7 +3463,7 @@ void MainWindow::on_action_FFTWisdom_triggered()
     }
     else
     {
-        QMessageBox::information(this, "FFTW Wisdom", QString("Process %1 started").arg(m_fftWisdomProcess->processId()));
+        QMessageBox::information(this, QObject::tr("FFTW Wisdom"), QObject::tr("Process %1 started").arg(m_fftWisdomProcess->processId()));
     }
 }
 
@@ -3472,12 +3473,12 @@ void MainWindow::fftWisdomProcessFinished(int exitCode, QProcess::ExitStatus exi
 
     if ((exitCode != 0) || (exitStatus != QProcess::NormalExit))
     {
-        QMessageBox::critical(this, "FFTW Wisdom", "fftwf-widdsom program failed");
+        QMessageBox::critical(this, QObject::tr("FFTW Wisdom"), QObject::tr("fftwf-widdsom program failed"));
     }
     else
     {
         QString log = m_fftWisdomProcess->readAllStandardOutput();
-        QMessageBox::information(this, "FFTW Wisdom", QString("Success\n%1").arg(log));
+        QMessageBox::information(this, QObject::tr("FFTW Wisdom"), QObject::tr("Success\n%1").arg(log));
 
     }
 
@@ -4189,6 +4190,9 @@ FeatureGUI *MainWindow::getMCPServerGUI(Feature **feature) const
 
 void MainWindow::updateMCPServerButton()
 {
+	if (m_shuttingDown) {
+		return;
+	}
     Feature *feature = nullptr;
     FeatureGUI *gui = getMCPServerGUI(&feature);
     bool available = gui != nullptr;
@@ -4236,6 +4240,9 @@ void MainWindow::showMCPServer()
 void MainWindow::mcpServerFeatureAdded(int featureSetIndex, Feature *feature)
 {
     (void) featureSetIndex;
+    if (m_shuttingDown) {
+        return;
+    }
 
     if (!isMCPServerFeature(feature)) {
         return;
@@ -4251,6 +4258,9 @@ void MainWindow::mcpServerFeatureAdded(int featureSetIndex, Feature *feature)
 void MainWindow::mcpServerFeatureRemoved(int featureSetIndex, Feature *feature)
 {
     (void) featureSetIndex;
+    if (m_shuttingDown) {
+        return;
+    }
 
     if (isMCPServerFeature(feature))
     {

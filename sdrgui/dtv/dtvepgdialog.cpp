@@ -43,23 +43,23 @@ DTVEPGDialog::DTVEPGDialog(DTVGuide *guide, DTVRecordingSchedule *schedule, QWid
     m_epg(guide),
     m_currentService(0)
 {
-    setWindowTitle("Programme Guide");
+    setWindowTitle(QObject::tr("Programme Guide"));
     resize(960, 640);
 
     m_services = new QListWidget();
-    m_services->setToolTip("Services by channel number. Those in italics are on other multiplexes, so are played by retuning, and those\n"
-        "greyed are on multiplexes whose frequency isn't known. Double-click to play.");
+    m_services->setToolTip(QObject::tr("Services by channel number. Those in italics are on other multiplexes, so are played by retuning, and those\n"
+        "greyed are on multiplexes whose frequency isn't known. Double-click to play."));
     m_services->setMinimumWidth(220);
 
     m_day = new QComboBox();
-    m_day->setToolTip("Day of the schedule");
+    m_day->setToolTip(QObject::tr("Day of the schedule"));
     m_otherMultiplexes = new QCheckBox("Other multiplexes");
-    m_otherMultiplexes->setToolTip("List services on other multiplexes of the network too");
+    m_otherMultiplexes->setToolTip(QObject::tr("List services on other multiplexes of the network too"));
     m_otherMultiplexes->setChecked(true);
     m_status = new QLabel();
     m_scheduled = new QToolButton();
-    m_scheduled->setText("Scheduled");
-    m_scheduled->setToolTip("Programmes to record. Select one to cancel its recording");
+    m_scheduled->setText(QObject::tr("Scheduled"));
+    m_scheduled->setToolTip(QObject::tr("Programmes to record. Select one to cancel its recording"));
     m_scheduled->setPopupMode(QToolButton::InstantPopup);
     m_scheduled->setMenu(new QMenu(m_scheduled));
     connect(m_scheduled->menu(), &QMenu::aboutToShow, this, &DTVEPGDialog::scheduledMenu);
@@ -74,8 +74,8 @@ DTVEPGDialog::DTVEPGDialog(DTVGuide *guide, DTVRecordingSchedule *schedule, QWid
     m_events->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_events->setSelectionMode(QAbstractItemView::SingleSelection);
     m_events->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    m_events->setToolTip("Info: REC to be recorded, HD, S subtitles, AD audio description, and the minimum age from the parental rating.\n"
-        "Double-click to play the service. Right-click to record");
+    m_events->setToolTip(QObject::tr("Info: REC to be recorded, HD, S subtitles, AD audio description, and the minimum age from the parental rating.\n"
+        "Double-click to play the service. Right-click to record"));
     m_events->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_events, &QTableWidget::customContextMenuRequested, this, &DTVEPGDialog::eventMenu);
 
@@ -279,7 +279,7 @@ void DTVEPGDialog::refreshServices()
 
     m_gridServices = services;
 
-    m_status->setText(QString("%1 services, %2 programmes").arg(services.size()).arg(m_epg->getEventCount()));
+    m_status->setText(QObject::tr("%1 services, %2 programmes").arg(services.size()).arg(m_epg->getEventCount()));
 
     if (key == m_servicesKey)
     {
@@ -312,16 +312,16 @@ void DTVEPGDialog::refreshServices()
 
             if (s.m_frequency > 0)
             {
-                item->setToolTip(QString("On another multiplex, at %1 MHz: double-click to tune to it").arg(s.m_frequency / 1e6, 0, 'f', 3));
+                item->setToolTip(QObject::tr("On another multiplex, at %1 MHz: double-click to tune to it").arg(s.m_frequency / 1e6, 0, 'f', 3));
             }
             else if (s.m_multiplexKnown)
             {
-                item->setToolTip("On another multiplex, whose frequency isn't known: double-click to search the UHF channels for it");
+                item->setToolTip(QObject::tr("On another multiplex, whose frequency isn't known: double-click to search the UHF channels for it"));
             }
             else
             {
                 item->setForeground(palette().color(QPalette::Disabled, QPalette::Text));
-                item->setToolTip("On another region's multiplex");
+                item->setToolTip(QObject::tr("On another region's multiplex"));
             }
         }
 
@@ -659,7 +659,7 @@ void DTVEPGDialog::showEventMenu(ListedService service, DTVGuide::Event event, c
 
     if (linkedService(event, linked))
     {
-        linkedAction = menu.addAction(QString("Watch on %1").arg(linked.m_name));
+        linkedAction = menu.addAction(QObject::tr("Watch on %1").arg(linked.m_name));
         linkedAction->setToolTip(linked.m_actual ? QString() : linked.m_frequency > 0
             ? QString("Tunes to %1 MHz").arg(linked.m_frequency / 1e6, 0, 'f', 3) : QString("Searches the UHF channels for its multiplex"));
     }
@@ -671,7 +671,7 @@ void DTVEPGDialog::showEventMenu(ListedService service, DTVGuide::Event event, c
     if (!scheduled && !reachable)
     {
         recordAction->setEnabled(false);
-        recordAction->setText("Record (on another multiplex: allow retuning from the Record button's menu)");
+        recordAction->setText(QObject::tr("Record (on another multiplex: allow retuning from the Record button's menu)"));
     }
     else if (!scheduled && (event.end() <= now()))
     {
@@ -685,7 +685,7 @@ void DTVEPGDialog::showEventMenu(ListedService service, DTVGuide::Event event, c
     if (!event.m_seriesCrid.isEmpty())
     {
         seriesAction = menu.addAction(series ? "Cancel series recording" : "Record series");
-        seriesAction->setToolTip("Every programme of the series on this service, each once (not repeats)");
+        seriesAction->setToolTip(QObject::tr("Every programme of the series on this service, each once (not repeats)"));
     }
 
     // Not refreshed while the menu's open (its event loop runs the timer)
@@ -751,14 +751,14 @@ void DTVEPGDialog::scheduledMenu()
 
     if (schedule.isEmpty() && series.isEmpty())
     {
-        menu->addAction("None")->setEnabled(false);
+        menu->addAction(QObject::tr("None"))->setEnabled(false);
         return;
     }
 
     // The series recorded, then the programmes
     for (const auto& s : series)
     {
-        QAction *action = menu->addAction(QString("Cancel series: %1  %2").arg(s.m_serviceName).arg(s.m_title));
+        QAction *action = menu->addAction(QObject::tr("Cancel series: %1  %2").arg(s.m_serviceName).arg(s.m_title));
         const int networkId = s.m_networkId, serviceId = s.m_serviceId;
         const QString crid = s.m_seriesCrid;
         connect(action, &QAction::triggered, this, [this, networkId, serviceId, crid]() {
@@ -776,7 +776,7 @@ void DTVEPGDialog::scheduledMenu()
     for (const auto& r : schedule)
     {
         const QDateTime start = QDateTime::fromSecsSinceEpoch(r.m_start).toLocalTime();
-        QAction *action = menu->addAction(QString("Cancel: %1 - %2  %3 - %4").arg(start.toString("ddd d MMM hh:mm"))
+        QAction *action = menu->addAction(QObject::tr("Cancel: %1 - %2  %3 - %4").arg(start.toString("ddd d MMM hh:mm"))
             .arg(QDateTime::fromSecsSinceEpoch(r.end()).toLocalTime().toString("hh:mm")).arg(r.m_serviceName).arg(r.m_title));
         const int networkId = r.m_networkId, serviceId = r.m_serviceId, eventId = r.m_eventId;
         connect(action, &QAction::triggered, this, [this, networkId, serviceId, eventId]() {

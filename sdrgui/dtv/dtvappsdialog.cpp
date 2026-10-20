@@ -67,7 +67,7 @@ DTVAppsDialog::DTVAppsDialog(DTVApps *apps, QWidget *parent) :
     m_serviceId(0),
     m_revision(-1)
 {
-    setWindowTitle("Interactive Applications");
+    setWindowTitle(QObject::tr("Interactive Applications"));
     resize(900, 600);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
@@ -77,18 +77,18 @@ DTVAppsDialog::DTVAppsDialog(DTVApps *apps, QWidget *parent) :
     QSplitter *splitter = new QSplitter(Qt::Vertical);
 
     m_appsTree = new QTreeWidget();
-    m_appsTree->setHeaderLabels({"Application", "Id", "Type", "Control", "Starts from"});
+    m_appsTree->setHeaderLabels({QObject::tr("Application"), QObject::tr("Id"), QObject::tr("Type"), QObject::tr("Control"), QObject::tr("Starts from")});
     m_appsTree->setRootIsDecorated(false);
-    m_appsTree->setToolTip("The service's applications, from its application information table (AIT). AUTOSTART applications start with the service; "
-        "PRESENT ones are started by the user (as from the red button). Right click to copy where one starts from");
+    m_appsTree->setToolTip(QObject::tr("The service's applications, from its application information table (AIT). AUTOSTART applications start with the service; "
+        "PRESENT ones are started by the user (as from the red button). Right click to copy where one starts from"));
     m_appsTree->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_appsTree, &QTreeWidget::customContextMenuRequested, this, &DTVAppsDialog::appsMenu);
     splitter->addWidget(m_appsTree);
 
     m_carouselsTree = new QTreeWidget();
-    m_carouselsTree->setHeaderLabels({"Carousel", "Kind", "Size", "Received"});
-    m_carouselsTree->setToolTip("The service's object carousels: the files of its MHEG-5 and HbbTV applications, sent round and round. "
-        "Expand one to see its files, as far as they've been received");
+    m_carouselsTree->setHeaderLabels({QObject::tr("Carousel"), QObject::tr("Kind"), QObject::tr("Size"), QObject::tr("Received")});
+    m_carouselsTree->setToolTip(QObject::tr("The service's object carousels: the files of its MHEG-5 and HbbTV applications, sent round and round. "
+        "Expand one to see its files, as far as they've been received"));
     connect(m_carouselsTree, &QTreeWidget::itemExpanded, this, [this](QTreeWidgetItem *item) {
         const int pid = item->data(0, m_pidRole).toInt();
         const QString path = item->data(0, m_pathRole).toString();
@@ -109,7 +109,7 @@ DTVAppsDialog::DTVAppsDialog(DTVApps *apps, QWidget *parent) :
 
     QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Close);
     m_save = buttons->addButton("Save Files...", QDialogButtonBox::ActionRole);
-    m_save->setToolTip("Save the files of the carousel selected that have been received, to a directory");
+    m_save->setToolTip(QObject::tr("Save the files of the carousel selected that have been received, to a directory"));
     m_save->setEnabled(false);
     connect(m_save, &QPushButton::clicked, this, &DTVAppsDialog::saveFiles);
     connect(buttons, &QDialogButtonBox::rejected, this, &QDialog::reject);
@@ -146,9 +146,9 @@ void DTVAppsDialog::refresh()
     m_revision = revision;
 
     if (m_serviceId == 0) {
-        m_service->setText("No service is being played");
+        m_service->setText(QObject::tr("No service is being played"));
     } else {
-        m_service->setText(QString("%1 (service %2)").arg(m_serviceName.isEmpty() ? QString("Service") : m_serviceName).arg(m_serviceId));
+        m_service->setText(QObject::tr("%1 (service %2)").arg(m_serviceName.isEmpty() ? QString("Service") : m_serviceName).arg(m_serviceId));
     }
 
     refreshApps();
@@ -286,7 +286,7 @@ void DTVAppsDialog::appsMenu(const QPoint& position)
     }
 
     QMenu menu(this);
-    QAction *copy = menu.addAction("Copy URL");
+    QAction *copy = menu.addAction(QObject::tr("Copy URL"));
 
     if (menu.exec(m_appsTree->viewport()->mapToGlobal(position)) == copy) {
         QApplication::clipboard()->setText(item->text(4));
@@ -324,8 +324,8 @@ void DTVAppsDialog::saveFiles()
     }
 
     if (!failed.isEmpty()) {
-        QMessageBox::warning(this, "Save Files", QString("%1 files saved. Couldn't save %2 files, as %3").arg(saved).arg(failed.size()).arg(failed[0]));
+        QMessageBox::warning(this, QObject::tr("Save Files"), QObject::tr("%1 files saved. Couldn't save %2 files, as %3").arg(saved).arg(failed.size()).arg(failed[0]));
     } else {
-        QMessageBox::information(this, "Save Files", QString("%1 files saved to %2").arg(saved).arg(QDir::toNativeSeparators(directory)));
+        QMessageBox::information(this, QObject::tr("Save Files"), QObject::tr("%1 files saved to %2").arg(saved).arg(QDir::toNativeSeparators(directory)));
     }
 }

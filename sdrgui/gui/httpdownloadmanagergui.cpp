@@ -37,7 +37,7 @@ QNetworkReply *HttpDownloadManagerGUI::download(const QUrl &url, const QString &
         QProgressDialog *progressDialog = new QProgressDialog(parent);
         progressDialog->setCancelButton(nullptr);
         progressDialog->setMinimumDuration(500);
-        progressDialog->setLabelText(QString("Downloading: %1\nTo: %2.").arg(url.toString(), filename));
+        progressDialog->setLabelText(QObject::tr("Downloading: %1\nTo: %2.").arg(url.toString(), filename));
         Qt::WindowFlags flags = progressDialog->windowFlags();
         flags |= Qt::CustomizeWindowHint;
         flags &= ~Qt::WindowCloseButtonHint;
@@ -71,11 +71,11 @@ bool HttpDownloadManagerGUI::confirmDownload(const QString& filename, QWidget *p
     {
         QMessageBox::StandardButton reply;
         if (age == 0) {
-            reply = QMessageBox::question(parent, "Confirm download", "This file was last downloaded today. Are you sure you wish to redownload it?", QMessageBox::Yes|QMessageBox::No);
+            reply = QMessageBox::question(parent, QObject::tr("Confirm download"), QObject::tr("This file was last downloaded today. Are you sure you wish to redownload it?"), QMessageBox::Yes|QMessageBox::No);
         } else if (age == 1) {
-            reply = QMessageBox::question(parent, "Confirm download", "This file was last downloaded yesterday. Are you sure you wish to redownload it?", QMessageBox::Yes|QMessageBox::No);
+            reply = QMessageBox::question(parent, QObject::tr("Confirm download"), QObject::tr("This file was last downloaded yesterday. Are you sure you wish to redownload it?"), QMessageBox::Yes|QMessageBox::No);
         } else {
-            reply = QMessageBox::question(parent, "Confirm download", QString("This file was last downloaded %1 days ago. Are you sure you wish to redownload this file?").arg(age), QMessageBox::Yes|QMessageBox::No);
+            reply = QMessageBox::question(parent, QObject::tr("Confirm download"), QObject::tr("This file was last downloaded %1 days ago. Are you sure you wish to redownload this file?").arg(age), QMessageBox::Yes|QMessageBox::No);
         }
         return reply == QMessageBox::Yes;
     }
