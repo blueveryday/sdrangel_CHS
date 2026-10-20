@@ -356,7 +356,8 @@ private:
 #endif
 
     bool m_settingsSaved;               // Records if settings have already been saved in response to a QCloseEvent
-    QPointer<LoadConfigurationFSM> m_configurationLoadFSM; // In-flight load started by loadConfiguration(), if any
+    bool m_shuttingDown = false;
+	QPointer<LoadConfigurationFSM> m_configurationLoadFSM; // In-flight load started by loadConfiguration(), if any
     const MainParser& m_parser;
 
 	void loadSettings();

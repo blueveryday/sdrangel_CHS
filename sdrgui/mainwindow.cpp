@@ -310,6 +310,7 @@ MainWindow::MainWindow(qtwebapp::LoggerWithFile *logger, const MainParser& parse
 
 MainWindow::~MainWindow()
 {
+	m_shuttingDown = true;
 	qDebug() << "MainWindow::~MainWindow";
 
     setConnectionOverlayEnabled(false);
@@ -4189,6 +4190,9 @@ FeatureGUI *MainWindow::getMCPServerGUI(Feature **feature) const
 
 void MainWindow::updateMCPServerButton()
 {
+	if (m_shuttingDown) {
+		return;
+	}
     Feature *feature = nullptr;
     FeatureGUI *gui = getMCPServerGUI(&feature);
     bool available = gui != nullptr;
@@ -4236,6 +4240,9 @@ void MainWindow::showMCPServer()
 void MainWindow::mcpServerFeatureAdded(int featureSetIndex, Feature *feature)
 {
     (void) featureSetIndex;
+    if (m_shuttingDown) {
+        return;
+    }
 
     if (!isMCPServerFeature(feature)) {
         return;
@@ -4251,6 +4258,9 @@ void MainWindow::mcpServerFeatureAdded(int featureSetIndex, Feature *feature)
 void MainWindow::mcpServerFeatureRemoved(int featureSetIndex, Feature *feature)
 {
     (void) featureSetIndex;
+    if (m_shuttingDown) {
+        return;
+    }
 
     if (isMCPServerFeature(feature))
     {
